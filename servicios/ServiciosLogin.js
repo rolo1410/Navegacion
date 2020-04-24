@@ -28,3 +28,8 @@ export const validarIngreso = (email, password, onSucces, onError) => {
     onError(error);
   });
 };
+
+export const cerrarSession = (onSucces, onError) => {
+  console.log("Cerrar session");
+  firebase.auth().signOut().then(onSucces()).catch(onError);
+};

@@ -16,6 +16,9 @@ import {CambioClave} from "./screens/CambioClave";
 import {cargarConfiguracion} from "./servicios/firebaseConfig";
 
 import firebase from "firebase";
+import {CerrarSesion} from "./screens/CerrarSesion";
+
+import {YellowBox} from "react-native";
 
 let navStack = createStackNavigator();
 let NavTab = createBottomTabNavigator();
@@ -29,7 +32,6 @@ function TabHome() {
           <Icon name="cart" type="evilicon" color="#517fa4"/>;
         }
       }}/>
-
     <NavTab.Screen name="listaComprasScreem" component={ListaCompras} options={{
         tabBarLabel: "Compras",
         tabBarIcon: () => {
@@ -54,6 +56,7 @@ function Home() {
 export default class App extends Component {
   constructor() {
     super();
+    YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
     if (!global.estaConfigurado) {
       cargarConfiguracion();
     }
@@ -90,6 +93,7 @@ export default class App extends Component {
           ? (<NavDrawer.Navigator initialRouteName="Inicio">
             <NavDrawer.Screen name="Inicio" component={Home}/>
             <NavDrawer.Screen name="Informacion" component={Informacion}/>
+            <NavDrawer.Screen name="Cerrar Sesion" component={CerrarSesion}/>
           </NavDrawer.Navigator>)
           : (<navStack.Navigator>
             <navStack.Screen name="Login" options={{

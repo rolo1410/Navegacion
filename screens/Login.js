@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Button} from "react-native";
 import {NavigationContext} from "@react-navigation/native";
 import {validarIngreso} from "./../servicios/ServiciosLogin";
 import {Input} from "react-native-elements";
+import {Alert} from "react-native";
 
 export class Login extends Component {
   static contextType = NavigationContext;
@@ -31,7 +32,7 @@ export class Login extends Component {
           this.setState({correoElectronico: valor});
         }}/>
       <Text>Contraseña</Text>
-      <Input placeholder="Ingrese el correo electronico" value={this.state.contrasenia} onChangeText={valor => {
+      <Input placeholder="Ingrese el correo electronico" secureTextEntry={true} value={this.state.contrasenia} onChangeText={valor => {
           this.setState({contrasenia: valor});
         }}/>
       <Button title="Ingresar" onPress={() => {

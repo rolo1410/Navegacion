@@ -1,20 +1,11 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, View, Button} from "react-native";
+import {StyleSheet, Text, View, Button, Alert} from "react-native";
+import ActionButton from "react-native-action-button";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export class ListaProductos extends Component {
 	render() {
-		return (
-			<View style={styles.container}>
-				<Text>LISTA DE PRODUCTOS</Text>
-
-				<Button
-					title="Formulario Producto"
-					onPress={() => {
-						this.props.navigation.navigate("formularioProductoScreem");
-					}}
-				/>
-			</View>
-		);
+		return <View style={styles.container}></View>;
 	}
 }
 

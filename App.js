@@ -25,88 +25,125 @@ let NavTab = createBottomTabNavigator();
 let NavDrawer = createDrawerNavigator();
 
 function TabHome() {
-  return (<NavTab.Navigator>
-    <NavTab.Screen name="listaProductosScreem" component={ListaProductos} options={{
-        tabBarLabel: "Productos",
-        tabBarIcon: () => {
-          <Icon name="cart" type="evilicon" color="#517fa4"/>;
-        }
-      }}/>
-    <NavTab.Screen name="listaComprasScreem" component={ListaCompras} options={{
-        tabBarLabel: "Compras",
-        tabBarIcon: () => {
-          <Icon name="cart" type="evilicon" color="#517fa4"/>;
-        }
-      }}/>
-  </NavTab.Navigator>);
+	return (
+		<NavTab.Navigator initialRouteName="listaProductosScreem">
+			<NavTab.Screen
+				name="listaProductosScreem"
+				component={ListaProductos}
+				options={{
+					tabBarLabel: "Productos",
+					tabBarIcon: () => {
+						<Icon name="cart" type="evilicon" color="#517fa4" />;
+					},
+				}}
+			/>
+			<NavTab.Screen
+				name="listaComprasScreem"
+				component={ListaCompras}
+				options={{
+					tabBarLabel: "Compras",
+					tabBarIcon: () => {
+						<Icon name="cart" type="evilicon" color="#517fa4" />;
+					},
+				}}
+			/>
+		</NavTab.Navigator>
+	);
 }
 
 function Home() {
-  return (<navStack.Navigator>
-    <navStack.Screen name="tabHome" component={TabHome} options={{
-        title: "Inicio"
-      }}/>
-    <navStack.Screen name="detalleCompra" component={DetalleCompra} options={{
-        title: "Detalle Compra"
-      }}/>
-    <navStack.Screen name="formularioProductoScreem" component={FormularioProducto}/>
-  </navStack.Navigator>);
+	return (
+		<navStack.Navigator>
+			<navStack.Screen
+				name="tabHome"
+				component={TabHome}
+				options={{
+					title: "Inicio",
+				}}
+			/>
+			<navStack.Screen
+				name="detalleCompra"
+				component={DetalleCompra}
+				options={{
+					title: "Detalle Compra",
+				}}
+			/>
+			<navStack.Screen
+				name="formularioProductoScreem"
+				component={FormularioProducto}
+			/>
+		</navStack.Navigator>
+	);
 }
 
 export default class App extends Component {
-  constructor() {
-    super();
-    YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
-    if (!global.estaConfigurado) {
-      cargarConfiguracion();
-    }
-    this.state = {
-      login: false
-    };
+	constructor() {
+		super();
+		YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
+		if (!global.estaConfigurado) {
+			cargarConfiguracion();
+		}
+		this.state = {
+			login: false,
+		};
 
-    firebase.auth().onAuthStateChanged(usuario => {
-      if (usuario) {
-        console.log("Usuario autenticado");
-        this.setState({login: true});
-      } else {
-        console.log("Usuario no autenticado");
-        this.setState({login: false});
-      }
-    });
-  }
+		firebase.auth().onAuthStateChanged(usuario => {
+			if (usuario) {
+				console.log("Usuario autenticado");
+				this.setState({login: true});
+			} else {
+				console.log("Usuario no autenticado");
+				this.setState({login: false});
+			}
+		});
+	}
 
-  autenticacion = () => {
-    this.setState({login: true});
-  };
-  registro = () => {
-    this.setState({login: true});
-  };
+	autenticacion = () => {
+		this.setState({login: true});
+	};
+	registro = () => {
+		this.setState({login: true});
+	};
 
-  salir = () => {
-    this.setState({login: false});
-  };
+	salir = () => {
+		this.setState({login: false});
+	};
 
-  render() {
-    return (<NavigationContainer>
-      {
-        this.state.login
-          ? (<NavDrawer.Navigator initialRouteName="Inicio">
-            <NavDrawer.Screen name="Inicio" component={Home}/>
-            <NavDrawer.Screen name="Informacion" component={Informacion}/>
-            <NavDrawer.Screen name="Cerrar Sesion" component={CerrarSesion}/>
-          </NavDrawer.Navigator>)
-          : (<navStack.Navigator>
-            <navStack.Screen name="Login" options={{
-                title: "Autenticación"
-              }} component={Login}/>
-            <navStack.Screen name="registroScreem" options={{
-                title: "Registro"
-              }} component={Registro}/>
-            <navStack.Screen name="recuperarContraseniaScreem" options={{
-                title: "Recuperar Contraseña"
-              }} component={CambioClave}/>
-          </navStack.Navigator>)
-      }
-    </NavigationContainer>);
-  }
+	render() {
+		return (
+			<NavigationContainer>
+				{this.state.login ? (
+					<NavDrawer.Navigator initialRouteName="Inicio">
+						<NavDrawer.Screen name="Inicio" component={Home} />
+						<NavDrawer.Screen name="Informacion" component={Informacion} />
+						<NavDrawer.Screen name="Cerrar Sesion" component={CerrarSesion} />
+					</NavDrawer.Navigator>
+				) : (
+					<navStack.Navigator>
+						<navStack.Screen
+							name="Login"
+							options={{
+								title: "Autenticación",
+							}}
+							component={Login}
+						/>
+						<navStack.Screen
+							name="registroScreem"
+							options={{
+								title: "Registro",
+							}}
+							component={Registro}
+						/>
+						<navStack.Screen
+							name="recuperarContraseniaScreem"
+							options={{
+								title: "Recuperar Contraseña",
+							}}
+							component={CambioClave}
+						/>
+					</navStack.Navigator>
+				)}
+			</NavigationContainer>
+		);
+	}
 }

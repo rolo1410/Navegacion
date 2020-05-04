@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import {StyleSheet, View, FlatList} from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-import {ItemProducto} from "../components/ItemProducto";
-import {registrarListener} from "../servicios/ServiciosProductos";
+import {ItemCompra} from "../../components/ItemCompra";
+import {registrarListener} from "../../servicios/ServiciosProductos";
 
-export class ListaProductos extends Component {
+export class ListaCompras extends Component {
   constructor() {
     super();
 
@@ -24,14 +24,14 @@ export class ListaProductos extends Component {
   render() {
     return (<View style={styles.container}>
       <FlatList data={this.state.lstProductos} renderItem={({item}) => {
-          return (<ItemProducto prpProducto={item} prpNav={this.props.navigation}/>);
+          return (<ItemCompra prpProducto={item} prpNav={this.props.navigation}/>);
         }} keyExtractor={producto => producto.id + ""}/>
 
       <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButton.Item buttonColor="#9b59b6" title="Nuevo Producto" onPress={() => {
-            this.props.navigation.navigate("formularioProductoScreem");
+                <ActionButton.Item buttonColor="#89CB8A" title="Mis Pedidos" onPress={() => {
+            this.props.navigation.navigate("ListaPedidosScreem");
           }}>
-          <Icon name="md-create" style={styles.actionButtonIcon}/>
+          <Icon name="md-create"/>
         </ActionButton.Item>
       </ActionButton>
     </View>);
@@ -41,17 +41,13 @@ export class ListaProductos extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection:"column",
+    backgroundColor: "#FFEC75",
+    alignItems: "stretch",
+    justifyContent: "center",
+    padding:2
+    
   },
-  item: {
-    backgroundColor: "#f9c2ff",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16
-  },
-  title: {
-    fontSize: 32
-  }
+  
+  
 });

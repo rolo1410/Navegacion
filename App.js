@@ -1,24 +1,32 @@
 import React, {Component} from "react";
+import firebase from "firebase";
+import {cargarConfiguracion} from "./servicios/firebaseConfig";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {ListaCompras} from "./screens/ListaCompras";
-import {ListaProductos} from "./screens/ListaProductos";
+import {createDrawerNavigator} from "@react-navigation/drawer";
+
+import {ListaCompras} from "./screens/compras/ListaCompras";
+import {DetalleCompra} from "./screens/compras/DetalleCompra";
+
+import {ListaPedidos} from "./screens/pedidos/ListaPedidos";
+
+import {DetalleProducto} from "./screens/productos/DetalleProducto";
+import {FormularioProducto} from "./screens/productos/FormularioProducto";
+import {ListaProductos} from "./screens/productos/ListaProductos";
+
+
 import {Informacion} from "./screens/Informacion";
 import {Login} from "./screens/Login";
-import {DetalleCompra} from "./screens/DetalleCompra";
-import {FormularioProducto} from "./screens/FormularioProducto";
 import {Icon} from "react-native-elements";
 
-import {createDrawerNavigator} from "@react-navigation/drawer";
 import {Registro} from "./screens/Registro";
 import {CambioClave} from "./screens/CambioClave";
-import {cargarConfiguracion} from "./servicios/firebaseConfig";
 
-import firebase from "firebase";
 import {CerrarSesion} from "./screens/CerrarSesion";
 
 import {YellowBox} from "react-native";
+import { CargarImagen } from "./screens/productos/CargarImgen";
 
 let navStack = createStackNavigator();
 let NavTab = createBottomTabNavigator();
@@ -26,7 +34,7 @@ let NavDrawer = createDrawerNavigator();
 
 function TabHome() {
 	return (
-		<NavTab.Navigator initialRouteName="listaProductosScreem">
+		<NavTab.Navigator initialRouteName="listaComprasScreem">
 			<NavTab.Screen
 				name="listaProductosScreem"
 				component={ListaProductos}
@@ -69,8 +77,29 @@ function Home() {
 				}}
 			/>
 			<navStack.Screen
+				name="detalleProductoScreem"
+				component={DetalleProducto}
+				options={{
+					title: "Comprar",
+				}}
+			/>
+
+			<navStack.Screen
 				name="formularioProductoScreem"
 				component={FormularioProducto}
+				options={{title: "Producto"}}
+			/>
+
+<navStack.Screen
+				name="cargarImagenProductoScreem"
+				component={CargarImagen}
+				options={{title: "Cargar Imagen"}}
+			/>
+
+			<navStack.Screen
+				name="ListaPedidosScreem"
+				component={ListaPedidos}
+				options={{title: "Mis Pedidos"}}
 			/>
 		</navStack.Navigator>
 	);
@@ -80,6 +109,7 @@ export default class App extends Component {
 	constructor() {
 		super();
 		YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
+		
 		if (!global.estaConfigurado) {
 			cargarConfiguracion();
 		}
@@ -91,6 +121,7 @@ export default class App extends Component {
 			if (usuario) {
 				console.log("Usuario autenticado");
 				this.setState({login: true});
+				global.mailUsuario = usuario.email;
 			} else {
 				console.log("Usuario no autenticado");
 				this.setState({login: false});

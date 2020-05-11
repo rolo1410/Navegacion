@@ -1,32 +1,34 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import firebase from "firebase";
-import {cargarConfiguracion} from "./servicios/firebaseConfig";
-import {NavigationContainer} from "@react-navigation/native";
-import {createStackNavigator} from "@react-navigation/stack";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {createDrawerNavigator} from "@react-navigation/drawer";
+import { cargarConfiguracion } from "./servicios/firebaseConfig";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import {ListaCompras} from "./screens/compras/ListaCompras";
-import {DetalleCompra} from "./screens/compras/DetalleCompra";
+import { ListaCompras } from "./screens/compras/ListaCompras";
+import { DetalleCompra } from "./screens/compras/DetalleCompra";
 
-import {ListaPedidos} from "./screens/pedidos/ListaPedidos";
+import { ListaPedidos } from "./screens/pedidos/ListaPedidos";
 
-import {DetalleProducto} from "./screens/productos/DetalleProducto";
-import {FormularioProducto} from "./screens/productos/FormularioProducto";
-import {ListaProductos} from "./screens/productos/ListaProductos";
+import { DetalleProducto } from "./screens/productos/DetalleProducto";
+import { FormularioProducto } from "./screens/productos/FormularioProducto";
+import { ListaProductos } from "./screens/productos/ListaProductos";
 
 
-import {Informacion} from "./screens/Informacion";
-import {Login} from "./screens/Login";
-import {Icon} from "react-native-elements";
+import { Informacion } from "./screens/Informacion";
+import { Login } from "./screens/Login";
+import { Icon } from "react-native-elements";
 
-import {Registro} from "./screens/Registro";
-import {CambioClave} from "./screens/CambioClave";
+import { Registro } from "./screens/Registro";
+import { CambioClave } from "./screens/CambioClave";
 
-import {CerrarSesion} from "./screens/CerrarSesion";
+import { CerrarSesion } from "./screens/CerrarSesion";
 
-import {YellowBox} from "react-native";
+import { YellowBox } from "react-native";
 import { CargarImagen } from "./screens/productos/CargarImgen";
+import { Direcciones } from "./screens/mapa/Direcciones";
+import { Direccion } from "./screens/mapa/Direccion";
 
 let navStack = createStackNavigator();
 let NavTab = createBottomTabNavigator();
@@ -40,6 +42,17 @@ function TabHome() {
 				component={ListaProductos}
 				options={{
 					tabBarLabel: "Productos",
+					tabBarIcon: () => {
+						<Icon name="cart" type="evilicon" color="#517fa4" />;
+					},
+				}}
+			/>
+
+			<NavTab.Screen
+				name="DireccionesScreem"
+				component={Direcciones}
+				options={{
+					tabBarLabel: "Direcciones",
 					tabBarIcon: () => {
 						<Icon name="cart" type="evilicon" color="#517fa4" />;
 					},
@@ -87,19 +100,25 @@ function Home() {
 			<navStack.Screen
 				name="formularioProductoScreem"
 				component={FormularioProducto}
-				options={{title: "Producto"}}
+				options={{ title: "Producto" }}
 			/>
 
-<navStack.Screen
+			<navStack.Screen
 				name="cargarImagenProductoScreem"
 				component={CargarImagen}
-				options={{title: "Cargar Imagen"}}
+				options={{ title: "Cargar Imagen" }}
 			/>
 
 			<navStack.Screen
 				name="ListaPedidosScreem"
 				component={ListaPedidos}
-				options={{title: "Mis Pedidos"}}
+				options={{ title: "Mis Pedidos" }}
+			/>
+
+			<navStack.Screen
+				name="DireccionScreem"
+				component={Direccion}
+				options={{ title: "Nueva direccion" }}
 			/>
 		</navStack.Navigator>
 	);
@@ -109,7 +128,7 @@ export default class App extends Component {
 	constructor() {
 		super();
 		YellowBox.ignoreWarnings(["componentWillReceiveProps"]);
-		
+
 		if (!global.estaConfigurado) {
 			cargarConfiguracion();
 		}
@@ -120,24 +139,24 @@ export default class App extends Component {
 		firebase.auth().onAuthStateChanged(usuario => {
 			if (usuario) {
 				console.log("Usuario autenticado");
-				this.setState({login: true});
+				this.setState({ login: true });
 				global.mailUsuario = usuario.email;
 			} else {
 				console.log("Usuario no autenticado");
-				this.setState({login: false});
+				this.setState({ login: false });
 			}
 		});
 	}
 
 	autenticacion = () => {
-		this.setState({login: true});
+		this.setState({ login: true });
 	};
 	registro = () => {
-		this.setState({login: true});
+		this.setState({ login: true });
 	};
 
 	salir = () => {
-		this.setState({login: false});
+		this.setState({ login: false });
 	};
 
 	render() {
@@ -150,30 +169,30 @@ export default class App extends Component {
 						<NavDrawer.Screen name="Cerrar Sesion" component={CerrarSesion} />
 					</NavDrawer.Navigator>
 				) : (
-					<navStack.Navigator>
-						<navStack.Screen
-							name="Login"
-							options={{
-								title: "Autenticación",
-							}}
-							component={Login}
-						/>
-						<navStack.Screen
-							name="registroScreem"
-							options={{
-								title: "Registro",
-							}}
-							component={Registro}
-						/>
-						<navStack.Screen
-							name="recuperarContraseniaScreem"
-							options={{
-								title: "Recuperar Contraseña",
-							}}
-							component={CambioClave}
-						/>
-					</navStack.Navigator>
-				)}
+						<navStack.Navigator>
+							<navStack.Screen
+								name="Login"
+								options={{
+									title: "Autenticación",
+								}}
+								component={Login}
+							/>
+							<navStack.Screen
+								name="registroScreem"
+								options={{
+									title: "Registro",
+								}}
+								component={Registro}
+							/>
+							<navStack.Screen
+								name="recuperarContraseniaScreem"
+								options={{
+									title: "Recuperar Contraseña",
+								}}
+								component={CambioClave}
+							/>
+						</navStack.Navigator>
+					)}
 			</NavigationContainer>
 		);
 	}

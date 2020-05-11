@@ -45,7 +45,7 @@ export const agregarItemCarroCompraDeprecated = (
 					.catch();
 			}
 		})
-		.catch(error => {});
+		.catch(error => { });
 };
 
 export const buscarCompra = (producto, lstProductos) => {
